@@ -1,8 +1,22 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useAuth } from '../contexts/AuthContext';
+import { getAnalysisHistory } from '../utils/firebase';
 import { LanguageSwitcher } from '../components/LanguageSwitcher/LanguageSwitcher';
-import { FileText, Camera, Shield, Scale, BookOpen, Briefcase, Landmark, AlertTriangle, HelpCircle } from 'lucide-react';
+import { 
+  FileText, 
+  Camera, 
+  Shield, 
+  Scale, 
+  BookOpen, 
+  Briefcase, 
+  Landmark, 
+  AlertTriangle, 
+  HelpCircle,
+  Clock 
+} from 'lucide-react';
 
 const DOC_TYPES = [
   { key: 'rent', icon: <Landmark size={18} /> },
@@ -17,6 +31,27 @@ export default function Home() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { language } = useLanguage();
+  const { currentUser } = useAuth();
+  const [history, setHistory] = useState([]);
+  const [loadingHistory, setLoadingHistory] = useState(false);
+
+  useEffect(() => {
+    if (currentUser) {
+      setLoadingHistory(true);
+      getAnalysisHistory(currentUser.uid)
+        .then((h) => setHistory(h))
+        .catch((err) => console.error('Failed to load home history:', err))
+        .finally(() => setLoadingHistory(false));
+    } else {
+      setHistory([]);
+    }
+  }, [currentUser]);
+
+  const loadFromHistory = (item) => {
+    sessionStorage.setItem('nyay-analysis', JSON.stringify(item.analysis));
+    sessionStorage.setItem('nyay-doctype', item.documentType);
+    navigate('/analysis');
+  };
 
   return (
     <div className="hero-bg" style={{ minHeight: '100vh' }}>
@@ -59,6 +94,72 @@ export default function Home() {
             </div>
           </button>
         </div>
+
+        {/* Past Analyses Dashboard (Visible after login) */}
+        {currentUser && (
+          <div className="card" style={{ width: '100%', maxWidth: '500px', marginBottom: '24px', border: '1px solid var(--color-border)', borderRadius: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px', borderBottom: '1px solid var(--color-border)', paddingBottom: '10px' }}>
+              <Clock size={18} style={{ color: 'var(--color-primary)' }} />
+              <h3 style={{ fontSize: 'var(--text-base)', color: 'var(--color-secondary)', margin: 0, fontWeight: 700 }}>
+                आपके पिछले विश्लेषण / Your Past Analyses
+              </h3>
+            </div>
+
+            {loadingHistory ? (
+              <div style={{ textAlign: 'center', padding: '16px', color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)' }}>
+                इतिहास लोड हो रहा है... / Loading history...
+              </div>
+            ) : history.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '16px', color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)', fontStyle: 'italic' }}>
+                कोई पिछला विश्लेषण नहीं मिला / No past analyses found.
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {history.slice(0, 5).map((item) => (
+                  <div 
+                    key={item.id} 
+                    className="history-card-item"
+                    onClick={() => loadFromHistory(item)}
+                    style={{
+                      padding: '12px',
+                      borderRadius: '10px',
+                      background: 'var(--color-surface)',
+                      border: '1px solid var(--color-border)',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <div style={{ flex: 1, paddingRight: '12px' }}>
+                      <div style={{ fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--color-secondary)', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                        <span>📄 {item.documentType.charAt(0).toUpperCase() + item.documentType.slice(1)}</span>
+                        <span 
+                          style={{
+                            fontSize: '9px',
+                            fontWeight: 800,
+                            padding: '2px 8px',
+                            borderRadius: '4px',
+                            textTransform: 'uppercase',
+                            background: item.verdict === 'SIGN_SAFE' ? '#F0FDF4' : item.verdict === 'DO_NOT_SIGN' ? '#FEF2F2' : '#FFFBEB',
+                            color: item.verdict === 'SIGN_SAFE' ? '#16A34A' : item.verdict === 'DO_NOT_SIGN' ? '#DC2626' : '#D97706'
+                          }}
+                        >
+                          {item.verdict?.replace(/_/g, ' ')}
+                        </span>
+                      </div>
+                      <div style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: '4px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '340px' }}>
+                        {new Date(item.createdAt).toLocaleDateString()} • {item.summary}
+                      </div>
+                    </div>
+                    <span style={{ color: 'var(--color-primary)', fontWeight: 700, fontSize: '14px' }}>→</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Trust Badge */}
         <div className="trust-badge" style={{ maxWidth: '500px', width: '100%' }}>
