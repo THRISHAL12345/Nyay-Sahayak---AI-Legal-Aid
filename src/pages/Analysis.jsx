@@ -9,12 +9,14 @@ import { SectionAccordion } from '../components/AnalysisCard/SectionAccordion';
 import { TTSButton } from '../components/TTSButton/TTSButton';
 import { generatePDFReport } from '../utils/generateReport';
 import { getAnalysisHistory } from '../utils/firebase';
+import { useAuth } from '../contexts/AuthContext';
 import { ArrowLeft, Download, FileText, Clock } from 'lucide-react';
 
 export default function Analysis() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { language } = useLanguage();
+  const { currentUser } = useAuth();
   const [analysis, setAnalysis] = useState(null);
   const [docType, setDocType] = useState('');
   const [history, setHistory] = useState([]);
@@ -30,7 +32,7 @@ export default function Analysis() {
   }, []);
 
   const loadHistory = async () => {
-    const h = await getAnalysisHistory();
+    const h = await getAnalysisHistory(currentUser?.uid);
     setHistory(h);
     setShowHistory(true);
   };

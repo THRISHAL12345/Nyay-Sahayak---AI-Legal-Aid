@@ -7,6 +7,7 @@ import { UploadZone } from '../components/UploadZone/UploadZone';
 import { CameraCapture } from '../components/CameraCapture/CameraCapture';
 import { ProcessingScreen } from '../components/ProcessingScreen/ProcessingScreen';
 import { saveAnalysis } from '../utils/firebase';
+import { useAuth } from '../contexts/AuthContext';
 import { ArrowLeft, Camera } from 'lucide-react';
 
 const DOC_TYPES = [
@@ -27,6 +28,7 @@ export default function Upload() {
   const { t } = useTranslation();
   const { language } = useLanguage();
   const { step, progress, analysis, error, analyze } = useDocumentAnalysis();
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     const type = searchParams.get('type');
@@ -36,12 +38,12 @@ export default function Upload() {
 
   useEffect(() => {
     if (step === ANALYSIS_STEPS.DONE && analysis) {
-      saveAnalysis(analysis, docType, language.code);
+      saveAnalysis(analysis, docType, language.code, currentUser?.uid);
       sessionStorage.setItem('nyay-analysis', JSON.stringify(analysis));
       sessionStorage.setItem('nyay-doctype', docType);
       navigate('/analysis');
     }
-  }, [step, analysis]);
+  }, [step, analysis, currentUser]);
 
   const handleAnalyze = () => {
     if (!file || !docType) return;
