@@ -1,0 +1,104 @@
+{
+  "app": {
+    "name": "न्याय सहायक",
+    "tagline": "अपने कानूनी दस्तावेज़ को सरल भाषा में समझें",
+    "subtitle": "Nyay Sahayak"
+  },
+  "home": {
+    "uploadBtn": "📄 दस्तावेज़ अपलोड करें",
+    "uploadBtnSub": "Upload Your Document",
+    "cameraBtn": "📷 कैमरे से स्कैन करें",
+    "cameraBtnSub": "Scan with Camera",
+    "trustBadge": "🔒 आपके दस्तावेज़ सुरक्षित हैं — कभी संग्रहीत नहीं किए जाते",
+    "trustBadgeSub": "Your documents are private and never stored",
+    "whoIsThisFor": "यह ऐप किसके लिए है?",
+    "docTypes": {
+      "rent": "किराया अनुबंध",
+      "land": "ज़मीन के कागज़",
+      "job": "नौकरी अनुबंध",
+      "loan": "कर्ज़ दस्तावेज़",
+      "court": "कोर्ट नोटिस",
+      "other": "अन्य"
+    }
+  },
+  "upload": {
+    "title": "दस्तावेज़ चुनें",
+    "titleSub": "Choose Document",
+    "dropzone": "यहाँ फ़ाइल छोड़ें",
+    "dropzoneSub": "Drop file here",
+    "browse": "फ़ाइल चुनें",
+    "browseSub": "Browse Files",
+    "or": "या / OR",
+    "camera": "📷 कैमरे से खींचें",
+    "cameraSub": "Take Photo with Camera",
+    "supported": "PDF, JPG, PNG — अधिकतम 10MB",
+    "handwritten": "हस्तलिखित दस्तावेज़ भी काम करते हैं",
+    "selectType": "📋 दस्तावेज़ का प्रकार चुनें",
+    "selectTypeSub": "Select document type",
+    "analyze": "🔍 विश्लेषण शुरू करें",
+    "analyzeSub": "Start Analysis",
+    "back": "← वापस / Back"
+  },
+  "processing": {
+    "reading": "आपका दस्तावेज़ पढ़ा जा रहा है",
+    "readingSub": "Reading your document...",
+    "steps": {
+      "found": "दस्तावेज़ मिला",
+      "ocr": "OCR Processing...",
+      "analyzing": "कानूनी विश्लेषण हो रहा है",
+      "analyzingSub": "Legal analysis in progress",
+      "report": "रिपोर्ट तैयार हो रही है",
+      "reportSub": "Preparing your report",
+      "translating": "भाषांतरण हो रहा है",
+      "translatingSub": "Translating to your language"
+    },
+    "tip": "💡 क्या आप जानते हैं?",
+    "tipSub": "Did you know?"
+  },
+  "analysis": {
+    "title": "विश्लेषण",
+    "titleSub": "Analysis",
+    "summary": "📝 सारांश",
+    "summarySub": "Summary",
+    "flags": "⚠️ ध्यान दें",
+    "flagsSub": "Important Flags",
+    "rights": "✅ आपके अधिकार",
+    "rightsSub": "Your Rights",
+    "sections": "📖 खंड-दर-खंड विश्लेषण",
+    "sectionsSub": "Section-by-Section Breakdown",
+    "listen": "🔊 सुनें",
+    "listenSub": "Listen",
+    "listenAll": "🔊 सब कुछ सुनें",
+    "listenAllSub": "Listen to everything",
+    "stop": "⏹ रुकें",
+    "download": "📥 PDF डाउनलोड करें",
+    "downloadSub": "Download PDF",
+    "newDoc": "📄 नया दस्तावेज़",
+    "newDocSub": "Analyze New Document",
+    "parties": "पक्ष / Parties",
+    "dates": "तिथियाँ / Dates",
+    "amounts": "राशि / Amounts",
+    "source": "स्रोत / Source",
+    "law": "⚖️ कानून क्या कहता है?",
+    "lawSub": "What does the law say?",
+    "protection": "आपकी सुरक्षा / Your protection",
+    "whatToDo": "✅ आप क्या करें / What to do",
+    "fair": "उचित ✓",
+    "unfair": "चिंताजनक ✗",
+    "history": "📋 पिछले विश्लेषण",
+    "historySub": "Past Analyses",
+    "noHistory": "कोई पिछला विश्लेषण नहीं",
+    "viewHistory": "देखें"
+  },
+  "language": {
+    "title": "🌐 भाषा चुनें",
+    "titleSub": "Select Language"
+  },
+  "errors": {
+    "fileType": "केवल PDF, JPG, PNG फ़ाइलें / Only PDF, JPG, PNG files",
+    "fileSize": "फ़ाइल बहुत बड़ी है / File too large (max 10MB)",
+    "camera": "कैमरा नहीं मिला / Camera not accessible",
+    "generic": "कुछ गड़बड़ हुई, फिर कोशिश करें / Something went wrong, please try again",
+    "noInternet": "इंटरनेट नहीं है / No internet connection"
+  }
+}
